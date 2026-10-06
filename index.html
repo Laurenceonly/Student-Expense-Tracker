@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Expense Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/model.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <main class="workspace">
+    <header class="page-header">
+      <div><p class="brand"><span aria-hidden="true">₱</span> Student Expense Tracker</p><h1>A little clarity for your allowance.</h1><p class="intro">Keep track of everyday spending, one expense at a time.</p></div>
+      <label class="month-control">View month<input type="month" id="month" required></label>
+    </header>
+    <p id="message" class="message" role="status" aria-live="polite" hidden></p>
+    <section class="overview" aria-label="Monthly overview">
+      <div><p>Total spent</p><strong id="total">₱0.00</strong><span id="count">0 expenses this month</span></div>
+      <div><p>Monthly budget</p><strong id="budget-total">Not set</strong><form id="budget-form" class="budget-form" novalidate><label class="sr-only" for="budget">Monthly budget in pesos</label><input id="budget" type="number" min="0" max="1000000" step="0.01" placeholder="Enter budget" inputmode="decimal"><button type="submit">Set budget</button></form></div>
+      <div><p id="remaining-label">Remaining</p><strong id="remaining">—</strong><span id="budget-note">Set a budget to see what’s left.</span><progress id="budget-progress" max="100" value="0" aria-label="Percentage of monthly budget spent" hidden></progress></div>
+    </section>
+    <div class="content-grid">
+      <section class="entry-panel" aria-labelledby="form-title">
+        <h2 id="form-title">Add an expense</h2><p class="section-note">Lunch, fare, supplies — it all adds up.</p>
+        <form id="expense-form" novalidate>
+          <label for="description">Description</label><input id="description" maxlength="80" placeholder="e.g. Lunch at the canteen" required>
+          <label for="amount">Amount (₱)</label><input id="amount" type="number" min="0.01" max="1000000" step="0.01" inputmode="decimal" placeholder="0.00" required>
+          <label for="category">Category</label><select id="category" required><option value="">Choose a category</option><option>Food</option><option>Transport</option><option>School supplies</option><option>Load / Internet</option><option>Personal</option><option>Other</option></select>
+          <label for="date">Date</label><input id="date" type="date" required>
+          <button id="save-expense" class="primary" type="submit">Add expense</button><button id="cancel-edit" type="button" hidden>Cancel editing</button>
+        </form>
+        <p class="storage-note">Saved in this browser on this device.</p>
+      </section>
+      <section class="list-panel" aria-labelledby="list-title">
+        <div class="list-header"><div><h2 id="list-title">Your expenses</h2><p id="month-label" class="section-note"></p></div><label class="filter-label">Category<select id="filter"><option value="">All categories</option><option>Food</option><option>Transport</option><option>School supplies</option><option>Load / Internet</option><option>Personal</option><option>Other</option></select></label></div>
+        <p id="filtered-total" class="filter-summary" hidden></p>
+        <div class="table-scroll"><table><caption class="sr-only">Expenses for the selected month and category</caption><thead><tr><th scope="col">Expense</th><th scope="col">Date</th><th scope="col" class="amount-cell">Amount</th><th scope="col">Actions</th></tr></thead><tbody id="expense-list"></tbody></table></div>
+        <div id="empty" class="empty"><span aria-hidden="true">＋</span><h3>No expenses yet</h3><p>Add your first expense to start tracking this month.</p></div>
+      </section>
+    </div>
+    <footer>A small habit. A clearer picture of your spending.</footer>
+  </main>
+</body>
+</html>
