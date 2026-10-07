@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Student Expense Tracker</title>
+  <meta name="theme-color" content="#193b46">
+  <meta name="description" content="Baon helps students keep track of expenses and make every peso count.">
+  <link rel="icon" href="assets/baon-mark.svg" type="image/svg+xml">
+  <title>Baon | Student Expense Tracker</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="js/model.js" defer></script>
   <script src="js/app.js" defer></script>
@@ -11,9 +14,13 @@
 <body>
   <main class="workspace">
     <header class="page-header">
-      <div><p class="brand"><span aria-hidden="true">₱</span> Student Expense Tracker</p><h1>A little clarity for your allowance.</h1><p class="intro">Keep track of everyday spending, one expense at a time.</p></div>
-      <label class="month-control">View month<input type="month" id="month" required></label>
+      <div class="brand-lockup">
+        <img class="brand-mark" src="assets/baon-mark.svg" alt="" width="48" height="48">
+        <div><p class="brand">baon<span class="brand-period">.</span></p><p class="brand-tagline">Know where your baon goes.</p></div>
+      </div>
+      <label class="month-control">Viewing month<input type="month" id="month" required></label>
     </header>
+    <div class="page-intro"><div><h1>Make every peso count.</h1><p class="intro">A clearer view of your allowance, from the little things to the big ones.</p></div><span class="intro-stamp">Your monthly money picture</span></div>
     <p id="message" class="message" role="status" aria-live="polite" hidden></p>
     <section class="overview" aria-label="Monthly overview">
       <div><p>Total spent</p><strong id="total">₱0.00</strong><span id="count">0 expenses this month</span></div>
@@ -25,21 +32,22 @@
         <h2 id="form-title">Add an expense</h2><p class="section-note">Lunch, fare, supplies — it all adds up.</p>
         <form id="expense-form" novalidate>
           <label for="description">Description</label><input id="description" maxlength="80" placeholder="e.g. Lunch at the canteen" required>
+          <label for="notes">Notes <span class="optional">(optional)</span></label><textarea id="notes" maxlength="500" rows="3" placeholder="Add details about this expense"></textarea>
           <label for="amount">Amount (₱)</label><input id="amount" type="number" min="0.01" max="1000000" step="0.01" inputmode="decimal" placeholder="0.00" required>
           <label for="category">Category</label><select id="category" required><option value="">Choose a category</option><option>Food</option><option>Transport</option><option>School supplies</option><option>Load / Internet</option><option>Personal</option><option>Other</option></select>
           <label for="date">Date</label><input id="date" type="date" required>
           <button id="save-expense" class="primary" type="submit">Add expense</button><button id="cancel-edit" type="button" hidden>Cancel editing</button>
         </form>
-        <p class="storage-note">Saved in this browser on this device.</p>
+        <p class="storage-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Saved in this browser on this device.</p>
       </section>
       <section class="list-panel" aria-labelledby="list-title">
         <div class="list-header"><div><h2 id="list-title">Your expenses</h2><p id="month-label" class="section-note"></p></div><label class="filter-label">Category<select id="filter"><option value="">All categories</option><option>Food</option><option>Transport</option><option>School supplies</option><option>Load / Internet</option><option>Personal</option><option>Other</option></select></label></div>
         <p id="filtered-total" class="filter-summary" hidden></p>
         <div class="table-scroll"><table><caption class="sr-only">Expenses for the selected month and category</caption><thead><tr><th scope="col">Expense</th><th scope="col">Date</th><th scope="col" class="amount-cell">Amount</th><th scope="col">Actions</th></tr></thead><tbody id="expense-list"></tbody></table></div>
-        <div id="empty" class="empty"><span aria-hidden="true">＋</span><h3>No expenses yet</h3><p>Add your first expense to start tracking this month.</p></div>
+        <div id="empty" class="empty"><span aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="12" width="34" height="29" rx="5"/><path d="M13 7v10M35 7v10M7 21h34M17 31h14M24 24v14"/></svg></span><h3>No expenses yet</h3><p>Add your first expense to start tracking this month.</p></div>
       </section>
     </div>
-    <footer>A small habit. A clearer picture of your spending.</footer>
+    <footer><span>baon.</span> Small habits add up.</footer>
   </main>
 </body>
 </html>

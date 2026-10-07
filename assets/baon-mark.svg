@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Baon wallet mark">
+  <rect width="48" height="48" rx="14" fill="#193b46"/>
+  <path d="M10 17.5c0-2.5 2-4.5 4.5-4.5H34v7H14.5A4.5 4.5 0 0 1 10 17.5Z" fill="#84d2b3"/>
+  <path d="M11 18h24a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H15a4 4 0 0 1-4-4V18Z" fill="#f4faf6"/>
+  <path d="M28 24h11v9H28a4.5 4.5 0 0 1 0-9Z" fill="#84d2b3"/>
+  <circle cx="30.5" cy="28.5" r="1.6" fill="#193b46"/>
+</svg>
