@@ -85,6 +85,12 @@ function render() {
     category.className = 'expense-category';
     category.textContent = expense.category;
     description.append(category);
+    if (expense.notes) {
+      const notes = document.createElement('p');
+      notes.className = 'expense-notes';
+      notes.textContent = expense.notes;
+      description.append(notes);
+    }
     textCell(row, new Date(expense.date + 'T12:00:00').toLocaleDateString('en-PH', { month: 'short', day: 'numeric' }), 'date-cell');
     textCell(row, money(expense.amountCents), 'amount-cell');
     const actions = textCell(row, '', 'actions');
@@ -107,7 +113,7 @@ function render() {
 byId('expense-form').addEventListener('submit', event => {
   event.preventDefault();
   try {
-    const expense = model.validateExpense({ description: byId('description').value, amount: byId('amount').value, category: byId('category').value, date: byId('date').value });
+    const expense = model.validateExpense({ description: byId('description').value, notes: byId('notes').value, amount: byId('amount').value, category: byId('category').value, date: byId('date').value });
     const id = editingId || (typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2));
     const record = { id, ...expense };
     const expenses = editingId ? state.expenses.map(item => item.id === editingId ? record : item) : [...state.expenses, record];
@@ -125,6 +131,7 @@ function editExpense(id) {
   if (!expense) return;
   editingId = id;
   byId('description').value = expense.description;
+  byId('notes').value = expense.notes || '';
   byId('amount').value = (expense.amountCents / 100).toFixed(2);
   byId('category').value = expense.category;
   byId('date').value = expense.date;

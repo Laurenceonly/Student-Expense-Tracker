@@ -22,7 +22,7 @@ function boot(storage = { value: null }) {
   const ids = [...fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8').matchAll(/id="([^"]+)"/g)].map(match => match[1]);
   const elements = Object.fromEntries(ids.map(id => [id, new Element()]));
   elements.empty.parts = { h3: new Element(), p: new Element() };
-  elements['expense-form'].reset = () => { for (const key of ['description', 'amount', 'category', 'date']) elements[key].value = ''; };
+  elements['expense-form'].reset = () => { for (const key of ['description', 'notes', 'amount', 'category', 'date']) elements[key].value = ''; };
   const window = { TrackerModel: model, confirm: () => true };
   const context = vm.createContext({ window, document: { getElementById: id => elements[id], createElement: () => new Element() }, localStorage: { getItem: () => storage.value, setItem: (key, value) => { if (storage.fail) throw new Error('Storage full'); storage.value = value; } }, Intl, Date, crypto: require('node:crypto').webcrypto, console });
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../js/app.js'), 'utf8'), context);
@@ -54,6 +54,41 @@ check('Corrupt data and duplicate IDs are rejected', () => {
   assert.throws(() => model.parseState(JSON.stringify({ expenses: [], budgets: { '2026-13': 500 } })));
   const e = { id: 'same', description: 'Lunch', amountCents: 2000, date: '2026-10-06', category: 'Food' };
   assert.throws(() => model.parseState(JSON.stringify({ expenses: [e, e], budgets: {} })));
+});
+check('Notes are optional, trimmed, and limited to 500 characters', () => {
+  const input = { description: 'Lunch', amount: '20', category: 'Food', date: '2026-10-06' };
+  assert.equal(model.validateExpense(input).notes, '');
+  assert.equal(model.validateExpense({ ...input, notes: '  With classmates  ' }).notes, 'With classmates');
+  assert.throws(() => model.validateExpense({ ...input, notes: 'x'.repeat(501) }));
+  assert.throws(() => model.validateExpense({ ...input, notes: 42 }));
+});
+check('Existing saved expenses without notes remain readable', () => {
+  const expense = { id: 'old', description: 'Fare', amountCents: 2000, date: '2026-10-06', category: 'Transport' };
+  const saved = JSON.stringify({ expenses: [expense], budgets: {} });
+  assert.equal(model.parseState(saved).expenses[0].notes, undefined);
+  const app = boot({ value: saved });
+  app.elements['expense-list'].children[0].children[3].children[0].trigger('click');
+  assert.equal(app.elements.notes.value, '');
+});
+check('Notes save, display as text, edit, clear, and reload', () => {
+  const app = boot();
+  app.elements.notes.value = '  <img src=x onerror=alert(1)>  ';
+  app.add('Lunch', '50');
+  assert.equal(JSON.parse(app.storage.value).expenses[0].notes, '<img src=x onerror=alert(1)>');
+  let row = app.elements['expense-list'].children[0];
+  assert.equal(row.children[0].children[1].textContent, '<img src=x onerror=alert(1)>');
+  row.children[3].children[0].trigger('click');
+  assert.equal(app.elements.notes.value, '<img src=x onerror=alert(1)>');
+  app.elements.notes.value = '  Split with a friend  ';
+  app.elements['expense-form'].trigger('submit');
+  assert.equal(JSON.parse(app.storage.value).expenses[0].notes, 'Split with a friend');
+  assert.equal(boot(app.storage).elements['expense-list'].children[0].children[0].children[1].textContent, 'Split with a friend');
+  row = app.elements['expense-list'].children[0];
+  row.children[3].children[0].trigger('click');
+  app.elements.notes.value = '';
+  app.elements['expense-form'].trigger('submit');
+  assert.equal(JSON.parse(app.storage.value).expenses[0].notes, '');
+  assert.equal(app.elements['expense-list'].children[0].children[0].children.length, 1);
 });
 check('Add, edit, cancel, and delete update the saved records', () => {
   const app = boot(); app.add('Lunch', '85.50');

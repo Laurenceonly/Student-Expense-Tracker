@@ -1,19 +1,19 @@
-# Student Expense Tracker
+# Baon — Student Expense Tracker
 
-A simple student expense tracker made with HTML, CSS, and JavaScript. Record spending in Philippine pesos and see how much of your monthly allowance remains.
+**Know where your baon goes.** A student expense tracker made with HTML, CSS, and JavaScript. Record spending in Philippine pesos and see how much of your monthly allowance remains.
 
 ## Run the app
 
 Open `index.html` in Chrome, Edge, or Firefox. No installation, database, or server is needed. Use the same browser and file location each time to keep access to saved data.
 
-1. Enter a description, amount, category, and date, then click **Add expense**.
+1. Enter a description, amount, category, and date. Add optional notes if useful, then click **Add expense**.
 2. Enter a monthly budget and click **Set budget**.
 3. Choose a month or category to review your spending.
 4. Click **Edit** to update an expense or **Delete** to remove it after confirmation.
 
 ## Features
 
-- Add, edit, and delete expenses.
+- Add, edit, and delete expenses, with optional notes for each expense.
 - Categories: Food, Transport, School supplies, Load / Internet, Personal, and Other.
 - Monthly spending, expense count, budget, remaining amount, and over-budget notice.
 - Month and category filters, with a separate category subtotal.
@@ -28,6 +28,7 @@ Each month has its own budget. Category filters affect the expense list and cate
 ```text
 index.html                  Page structure and forms
 css/style.css               Desktop and mobile styles
+assets/baon-mark.svg        Brand mark and favicon
 js/model.js                 Validation, money helpers, filters, and totals
 js/app.js                   Interface events, rendering, and browser storage
 tests/tracker.test.cjs       Dependency-free automated behavior checks
@@ -40,7 +41,7 @@ docs/screenshots/README.md
 
 ## How the code works
 
-Expenses have an ID, description, amount in integer centavos, category, and date. Money is stored in centavos to avoid floating-point addition errors, such as `0.1 + 0.2`. `model.js` validates input and calculates totals. `app.js` listens for form submissions, writes state to browser storage, and updates the page. Descriptions are rendered using `textContent` so typed HTML is displayed as text.
+Expenses have an ID, description, optional notes (up to 500 characters), amount in integer centavos, category, and date. Existing saved expenses without notes remain usable. Money is stored in centavos to avoid floating-point addition errors, such as `0.1 + 0.2`. `model.js` validates input and calculates totals. `app.js` listens for form submissions, writes state to browser storage, and updates the page. Descriptions and notes are rendered using `textContent` so typed HTML is displayed as text.
 
 The storage key is `student-expense-tracker-v1`. Expenses and monthly budgets are saved together as JSON. Data is written before updating the visible state; a failed write shows an error and preserves the previous data. Damaged saved data is not silently overwritten.
 
@@ -52,7 +53,7 @@ If Node.js is installed, run:
 node tests/tracker.test.cjs
 ```
 
-All 15 automated checks passed during development. These include behavior checks using a small DOM mock; they do not replace testing in a real browser. See `docs/testing.md` for the manual checklist.
+The automated checks include behavior checks using a small DOM mock; they do not replace testing in a real browser. See `docs/testing.md` for the manual checklist.
 
 ## Limitations
 

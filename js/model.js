@@ -22,10 +22,13 @@
   function validateExpense(input) {
     const description = String(input.description || '').trim();
     if (!description || description.length > 80) throw new Error('Enter a description between 1 and 80 characters.');
+    if (input.notes !== undefined && typeof input.notes !== 'string') throw new Error('Notes must be text.');
+    const notes = (input.notes || '').trim();
+    if (notes.length > 500) throw new Error('Keep notes to 500 characters or fewer.');
     const amountCents = toCents(input.amount);
     if (!categories.includes(input.category)) throw new Error('Choose a valid category.');
     if (!validDate(input.date)) throw new Error('Choose a valid expense date.');
-    return { description, amountCents, category: input.category, date: input.date };
+    return { description, notes, amountCents, category: input.category, date: input.date };
   }
 
   function forMonth(expenses, month, category = '') {
