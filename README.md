@@ -1,6 +1,8 @@
-# Baon
+# Baon — Student Expense Tracker
 
 Baon is a student expense tracker for managing a monthly allowance in Philippine pesos. Log canteen meals, fares, school supplies, and mobile load to see what you’ve spent and how much of your allowance is left.
+
+![Baon spending overview showing a monthly budget, remaining allowance, and sample expenses](docs/screenshots/baon-overview.png)
 
 ## Run locally
 
@@ -20,6 +22,10 @@ For example, with a ₱2,000 allowance, a ₱75 lunch and a ₱25 fare leave ₱
 Baon saves expenses and their monthly budgets in the browser’s local storage. Keep using the same browser profile and app address to access your records. Clearing that browser’s site data can erase them. Data does not sync across browsers or devices.
 
 Amounts are stored as whole centavos so adding peso amounts preserves exact totals.
+
+## Project status
+
+Baon is an early student project that I plan to continue developing. The first version focuses on recording everyday purchases and tracking a monthly allowance.
 
 ## Repository layout
 
