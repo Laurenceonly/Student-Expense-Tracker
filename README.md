@@ -1,64 +1,43 @@
-# Baon — Student Expense Tracker
+# Baon
 
-**Know where your baon goes.** A student expense tracker made with HTML, CSS, and JavaScript. Record spending in Philippine pesos and see how much of your monthly allowance remains.
+Baon is a student expense tracker for managing a monthly allowance in Philippine pesos. Log canteen meals, fares, school supplies, and mobile load to see what you’ve spent and how much of your allowance is left.
 
-## Run the app
+## Run locally
 
-Open `index.html` in Chrome, Edge, or Firefox. No installation, database, or server is needed. Use the same browser and file location each time to keep access to saved data.
+Download or clone the repository and open [`index.html`](index.html) in your browser. Baon runs on plain HTML, CSS, and JavaScript. It requires no installation, account, server, or API key.
 
-1. Enter a description, amount, category, and date. Add optional notes if useful, then click **Add expense**.
-2. Enter a monthly budget and click **Set budget**.
-3. Choose a month or category to review your spending.
-4. Click **Edit** to update an expense or **Delete** to remove it after confirmation.
+## Track an allowance
 
-## Features
+1. Choose a month and use **Set budget** to record that month’s allowance.
+2. Use **Add expense** to log each purchase. Enter a description, amount, category, and date. Add a note if you need to remember what the purchase covered.
+3. Use **Total spent** and **Remaining** to check your allowance. If spending exceeds the budget, the overview shows how far you went over.
+4. Filter **Your expenses** by category to see its subtotal. The overview continues to show totals for the whole month. Use **Edit** or **Delete** to correct a record.
 
-- Add, edit, and delete expenses, with optional notes for each expense.
-- Categories: Food, Transport, School supplies, Load / Internet, Personal, and Other.
-- Monthly spending, expense count, budget, remaining amount, and over-budget notice.
-- Month and category filters, with a separate category subtotal.
-- Input validation and clear success/error messages.
-- Browser persistence through `localStorage`.
-- Responsive layout and labeled keyboard-accessible controls.
+For example, with a ₱2,000 allowance, a ₱75 lunch and a ₱25 fare leave ₱1,900. Filtering by **Food** shows a ₱75 subtotal while **Total spent** still shows ₱100.
 
-Each month has its own budget. Category filters affect the expense list and category subtotal; the monthly overview always covers the entire selected month. Adding or editing an expense switches the view to that expense's month and clears the category filter so the saved record is visible.
+## Data and storage
 
-## Project files
+Baon saves expenses and their monthly budgets in the browser’s local storage. Keep using the same browser profile and app address to access your records. Clearing that browser’s site data can erase them. Data does not sync across browsers or devices.
 
-```text
-index.html                  Page structure and forms
-css/style.css               Desktop and mobile styles
-assets/baon-mark.svg        Brand mark and favicon
-js/model.js                 Validation, money helpers, filters, and totals
-js/app.js                   Interface events, rendering, and browser storage
-tests/tracker.test.cjs       Dependency-free automated behavior checks
-docs/requirements-analysis.md
-docs/ai-prompt-log.md
-docs/testing.md
-docs/submission-checklist.md
-docs/screenshots/README.md
-```
+Amounts are stored as whole centavos so adding peso amounts preserves exact totals.
 
-## How the code works
+## Repository layout
 
-Expenses have an ID, description, optional notes (up to 500 characters), amount in integer centavos, category, and date. Existing saved expenses without notes remain usable. Money is stored in centavos to avoid floating-point addition errors, such as `0.1 + 0.2`. `model.js` validates input and calculates totals. `app.js` listens for form submissions, writes state to browser storage, and updates the page. Descriptions and notes are rendered using `textContent` so typed HTML is displayed as text.
+| Path | Purpose |
+| --- | --- |
+| [`index.html`](index.html) | Expense form, monthly overview, and expense table |
+| [`css/`](css/) and [`assets/`](assets/) | Styles, brand mark, and favicon |
+| [`js/model.js`](js/model.js) | Expense validation, centavo calculations, filtering, and monthly totals |
+| [`js/app.js`](js/app.js) | Form handling, rendering, and browser storage |
+| [`tests/`](tests/) | Automated checks for the model and app behavior |
+| [`docs/testing.md`](docs/testing.md) | Test coverage and manual browser checklist |
 
-The storage key is `student-expense-tracker-v1`. Expenses and monthly budgets are saved together as JSON. Data is written before updating the visible state; a failed write shows an error and preserves the previous data. Damaged saved data is not silently overwritten.
+## Run the tests
 
-## Tests
-
-If Node.js is installed, run:
+With Node.js installed, run this command from the repository root.
 
 ```sh
 node tests/tracker.test.cjs
 ```
 
-The automated checks include behavior checks using a small DOM mock; they do not replace testing in a real browser. See `docs/testing.md` for the manual checklist.
-
-## Limitations
-
-Data belongs to this browser on this device and is not synced or backed up. Clearing browser data can remove it. Some browsers restrict storage for local files or private windows. If saving is blocked, use a normal browser window with local storage enabled. Avoid editing the tracker in multiple tabs at the same time. Amounts and budgets are limited to ₱1,000,000 each, with at most two decimal places. Expense dates from 1900 through 9999 are accepted, including future dates.
-
-## Midterm status
-
-The supplied general instructions were used as requirements context. The specific assigned scenario page was not provided, so its exact required features and branch feature still need confirmation. The app and draft documentation are present; GitHub publishing, staged commits, a feature branch/pull request, browser screenshots, and the student's own evaluation remain to be completed. No Git history or evidence has been fabricated. See `docs/submission-checklist.md`.
+The suite covers expense entry and editing, monthly budgets, filtering, and storage failures. Follow the [browser checklist](docs/testing.md) to verify layout and native form controls.

@@ -1,0 +1,47 @@
+# Local notes and development tools
+.local-notes/
+.local-tools/
+/docs/ai-prompt-log.md
+/docs/requirements-analysis.md
+/docs/submission-checklist.md
+/docs/screenshots/README.md
+.agents/
+.codex/
+.claude/
+.cursor/
+.impeccable/
+.skills/
+skills/
+AGENTS.md
+SKILL.md
+.impeccable.md
+impeccable.json
+
+# Local configuration and credentials
+.env
+.env.*
+*.env
+.aws/
+.ssh/
+.netrc
+.npmrc
+.pypirc
+credentials.json
+secrets.json
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Dependencies and generated output
+node_modules/
+coverage/
+.playwright-cli/
+playwright-report/
+test-results/
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

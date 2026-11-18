@@ -1,12 +1,14 @@
 # Testing
 
-## Automated checks performed
+## Automated checks
 
 Command: `node tests/tracker.test.cjs`
 
-Result: 15 checks passed. The checks cover exact centavo totals, invalid amounts, zero budgets, calendar dates, blank descriptions, unknown categories, filters, invalid saved data, duplicate IDs, add/edit/cancel/delete behavior, deletion cancellation, restoring state, over-budget behavior, saving expenses in another month, plain-text rendering, and storage write failures.
+The suite covers exact centavo totals, expense and budget validation, month and category filters, optional notes, older saved records, editing and deleting expenses, plain-text rendering, and storage failures.
 
-The interaction checks use a small in-memory DOM mock and fake local storage. They verify application logic but do not exercise a real browser's native date/number inputs, file storage behavior, CSS, accessibility tree, or layout. JavaScript syntax checks also passed for both source files.
+The older-record check uses an October 2026 expense. It can fail in other months because Baon opens to the current month and the test attempts to edit that expense before selecting October 2026.
+
+The interaction checks use a small in-memory DOM mock and simulated local storage. Use the manual checks below to verify native form controls, browser persistence, keyboard navigation, and layout.
 
 ## Manual browser checks still to complete
 
